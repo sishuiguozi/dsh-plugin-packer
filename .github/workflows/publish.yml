@@ -1,0 +1,52 @@
+name: test-and-publish
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write # npm provenance
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Self-contained packer test
+        run: node test/ci.mjs
+      - name: Syntax check
+        run: |
+          for f in lib/*.js; do node --check "$f"; done
+          node --input-type=module --check < lib/client.js
+      - name: Published files only
+        run: node -e "const m=require('./package.json'); if(m.private===true) process.exit(1); if(!Array.isArray(m.files)||m.files.length===0) process.exit(1); console.log('publishable:', m.name, m.version)"
+
+  publish:
+    needs: test
+    if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org
+      - name: Tag must match package.json
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          TAG="${GITHUB_REF_NAME#v}"
+          if [ "$VERSION" != "$TAG" ]; then
+            echo "::error::tag v$TAG does not match package.json $VERSION"
+            exit 1
+          fi
+      - name: Publish to npm
+        run: npm publish --access public --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
