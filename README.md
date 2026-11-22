@@ -1,5 +1,9 @@
 # 插件打包（dsh-plugin-packer）
 
+[![npm version](https://img.shields.io/npm/v/dsh-plugin-packer.svg)](https://www.npmjs.com/package/dsh-plugin-packer)
+[![license](https://img.shields.io/npm/l/dsh-plugin-packer.svg)](LICENSE)
+[![GitHub](https://img.shields.io/github/stars/sishuiguozi/dsh-plugin-packer.svg)](https://github.com/sishuiguozi/dsh-plugin-packer)
+
 把一个插件连同它的 **node 依赖闭包**，以及可选的**运行时环境**，打成一个可离线导入的 `.dsh-plugin.zip`；导入时铺回 `node_modules` 并按需重建环境。
 
 普通插件只带代码就够，但**真正重量在运行时环境里**的插件不够：
