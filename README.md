@@ -3,6 +3,7 @@
 [![npm version](https://img.shields.io/npm/v/dsh-plugin-packer.svg)](https://www.npmjs.com/package/dsh-plugin-packer)
 [![license](https://img.shields.io/npm/l/dsh-plugin-packer.svg)](LICENSE)
 [![GitHub](https://img.shields.io/github/stars/sishuiguozi/dsh-plugin-packer.svg)](https://github.com/sishuiguozi/dsh-plugin-packer)
+[![test-and-publish](https://github.com/sishuiguozi/dsh-plugin-packer/actions/workflows/publish.yml/badge.svg)](https://github.com/sishuiguozi/dsh-plugin-packer/actions/workflows/publish.yml)
 
 把一个插件连同它的 **node 依赖闭包**，以及可选的**运行时环境**，打成一个可离线导入的 `.dsh-plugin.zip`；导入时铺回 `node_modules` 并按需重建环境。
 
@@ -164,3 +165,18 @@ node test/import.mjs <zip>   # 空 DSH_HOME 冷导入：铺包 + 依赖写入 + 
 ```
 
 `test/import.mjs` 会自己造一个临时 `DSH_HOME` 与 profile（在系统临时目录），不动你正在跑的 profile，跑完不留垃圾。
+
+## 发版
+
+```bash
+npm version patch   # 或 minor / major：改版本、提交、打 tag
+git push --follow-tags
+```
+
+推送 tag 会触发 GitHub Actions（`.github/workflows/publish.yml`）：先跑 `test/ci.mjs`
+（自包含，不依赖任何本机 profile），通过后自动 `npm publish --provenance`。
+仓库需要在 Settings → Secrets and variables → Actions 里配置一个名为 `NPM_TOKEN`
+的 granular token：权限 **Read and write**、包范围含 `dsh-plugin-packer`、
+勾选 **Bypass two-factor authentication**。
+
+只是验证代码的话，也可以在该页面手动 Run workflow（只跑测试，不发布）。
