@@ -2,7 +2,17 @@
   "name": "dsh-plugin-packer",
   "version": "2.1.0",
   "description": "DSH 插件打包器：把插件、依赖闭包和运行时环境打成一个可离线导入的 zip，设置页支持按安装/更新时间排序与多选批量打包。",
-  "keywords": ["dsh-plugin", "deepseek", "harness", "plugin", "packaging", "export", "import", "offline", "runtime-assets"],
+  "keywords": [
+    "dsh-plugin",
+    "deepseek",
+    "harness",
+    "plugin",
+    "packaging",
+    "export",
+    "import",
+    "offline",
+    "runtime-assets"
+  ],
   "type": "module",
   "main": "lib/index.js",
   "exports": {
@@ -10,8 +20,16 @@
     "./client": "./lib/client.js",
     "./package.json": "./package.json"
   },
-  "files": ["lib", "docs", "cordis.patch.yml", "README.md", "LICENSE"],
-  "engines": { "node": ">=20" },
+  "files": [
+    "lib",
+    "docs",
+    "cordis.patch.yml",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "clean": "node tools/clean.mjs",
     "clean:all": "node tools/clean.mjs --all",
@@ -24,8 +42,22 @@
     "registry": "https://registry.npmjs.org"
   },
   "dsh": {
-    "bundle": { "patch": "./cordis.patch.yml" },
-    "client": { "platform": "web", "inject": [] }
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": []
+    }
   },
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sishuiguozi/dsh-plugin-packer.git"
+  },
+  "homepage": "https://github.com/sishuiguozi/dsh-plugin-packer#readme",
+  "bugs": {
+    "url": "https://github.com/sishuiguozi/dsh-plugin-packer/issues"
+  },
+  "author": "sishuiguozi"
 }
