@@ -1,0 +1,31 @@
+{
+  "name": "dsh-plugin-packer",
+  "version": "2.1.0",
+  "description": "DSH 插件打包器：把插件、依赖闭包和运行时环境打成一个可离线导入的 zip，设置页支持按安装/更新时间排序与多选批量打包。",
+  "keywords": ["dsh-plugin", "deepseek", "harness", "plugin", "packaging", "export", "import", "offline", "runtime-assets"],
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
+  "files": ["lib", "docs", "cordis.patch.yml", "README.md", "LICENSE"],
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "clean": "node tools/clean.mjs",
+    "clean:all": "node tools/clean.mjs --all",
+    "test": "node test/host.test.mjs",
+    "pack": "node tools/pack-self.mjs",
+    "publish:npm": "npm publish"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
+  "dsh": {
+    "bundle": { "patch": "./cordis.patch.yml" },
+    "client": { "platform": "web", "inject": [] }
+  },
+  "license": "MIT"
+}

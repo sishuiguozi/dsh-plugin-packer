@@ -1,0 +1,10 @@
+# 构建与测试产物：可随时重建，不进版本库
+node_modules/
+build/tmp/
+build/dist/
+build/pipenv/
+build/stage/
+deliver/
+*.log
+.DS_Store
+test/*.bak

@@ -1,0 +1,5 @@
+# Installed by `dsh-plugin-packer`: one host entry.
+# The browser half is picked up from this package's `dsh.client` declaration.
+- insert:
+    - id: dsh-plugin-packer
+      name: dsh-plugin-packer
