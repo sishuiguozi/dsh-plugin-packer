@@ -20,6 +20,8 @@ jobs:
           node-version: 20
       - name: Self-contained packer test
         run: node test/ci.mjs
+      - name: Host access gate
+        run: node test/gate.mjs
       - name: Syntax check
         run: |
           for f in lib/*.js; do node --check "$f"; done

@@ -106,6 +106,7 @@ npm i dsh-plugin-packer
 ## 安全边界
 
 - 服务只监听回环：非 `127.0.0.1`/`::1` 一律 403；拒绝 `sec-fetch-site: cross-site`。
+- 在自身基线之外，还会向**宿主的访问闸门**询问一次：`ctx.connection.requestRejection(request)` 返回 `401`/`403` 时直接拒绝。该服务从 DSH 0.2.3 起提供（含浏览器登录与已声明权威），旧宿主没有它时自动退回上面的基线检查，因此不改变旧环境的行为。
 - 导入请求体上限 512 MiB（`maxImportBytes` 可配）。
 - 资产里的命令只允许**资产内部**的可执行文件；路径逃逸（`..`）直接拒绝；不许进 `node_modules`。
 - 不经过 shell：`spawn(exe, args)`，参数是数组。
