@@ -49,6 +49,15 @@ jobs:
             exit 1
           fi
       - name: Publish to npm
-        run: npm publish --access public --provenance
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          # A version already on the registry cannot be published twice; when
+          # the release was pushed from a workstation first, this run is a no-op
+          # instead of a red build.
+          if npm view "dsh-plugin-packer@$VERSION" version >/dev/null 2>&1; then
+            echo "::notice::dsh-plugin-packer@$VERSION is already published; nothing to do"
+            exit 0
+          fi
+          npm publish --access public --provenance
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
