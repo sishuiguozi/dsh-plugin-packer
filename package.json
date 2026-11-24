@@ -1,6 +1,6 @@
 {
   "name": "dsh-plugin-packer",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "DSH 插件打包器：把插件、依赖闭包和运行时环境打成一个可离线导入的 zip，设置页支持按安装/更新时间排序与多选批量打包。",
   "keywords": [
     "dsh-plugin",
